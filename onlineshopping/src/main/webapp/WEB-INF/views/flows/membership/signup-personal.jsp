@@ -45,7 +45,7 @@
 							<div class="form-group">
 								<label class="control-label col-md-4">Email</label>
 								<div class="col-md-8">
-									<sf:input type="text" path="email" class="form-control"
+									<sf:input type="email" path="email" class="form-control"
 										placeholder="abc@zyx.com" />
 									<sf:errors path="email" cssClass="help-block" element="em"/> 									
 								</div>
@@ -116,4 +116,5 @@
 		
 	</div>
 
-<%@include file="../flows-shared/footer.jsp" %>			
+<%@include file="../flows-shared/footer.jsp" %>		
+

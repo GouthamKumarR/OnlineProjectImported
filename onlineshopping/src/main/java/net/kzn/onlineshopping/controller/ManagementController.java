@@ -8,6 +8,8 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +26,7 @@ import net.kzn.onlineshopping.validator.ProductValidator;
 import net.kzn.shoppingbackend.dao.CategoryDAO;
 import net.kzn.shoppingbackend.dao.ProductDAO;
 import net.kzn.shoppingbackend.dto.Category;
+import net.kzn.shoppingbackend.dto.ContactUs;
 import net.kzn.shoppingbackend.dto.Product;
 
 @Controller
@@ -36,7 +39,10 @@ public class ManagementController {
 	private ProductDAO productDAO;
 	
 	@Autowired
-	private CategoryDAO categoryDAO;		
+	private CategoryDAO categoryDAO;	
+	
+	@Autowired
+    private JavaMailSender mailSender;
 
 	@RequestMapping("/product")
 	public ModelAndView manageProduct(@RequestParam(name="success",required=false)String success) {		
@@ -141,6 +147,25 @@ public class ManagementController {
 	}
 			
 	
+	@RequestMapping(value="/contactus" , method=RequestMethod.POST)
+	public String contactus(@Valid @ModelAttribute("contactUs") ContactUs contactUs, 
+			BindingResult results, Model model, HttpServletRequest request) {
+
+		System.out.println("recipientAddress"+contactUs.getEmail());
+	     String msgBody= "Name :"+contactUs.getName()+""
+	     		+ "Message :"+contactUs.getMessage();
+	     SimpleMailMessage email = new SimpleMailMessage();
+	        email.setTo(contactUs.getEmail());
+	        email.setSubject(contactUs.getSubject());
+	        email.setText(msgBody);
+	         
+	        
+	        
+	        mailSender.send(email);
+		
+		
+		return "sucess";
+	}	
 	
 	@ModelAttribute("categories") 
 	public List<Category> modelCategories() {

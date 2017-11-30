@@ -1,10 +1,9 @@
 package net.kzn.onlineshopping.controller;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,15 +12,23 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 
 import net.kzn.onlineshopping.exception.ProductNotFoundException;
 import net.kzn.shoppingbackend.dao.CategoryDAO;
+import net.kzn.shoppingbackend.dao.ContactDAO;
 import net.kzn.shoppingbackend.dao.ProductDAO;
 import net.kzn.shoppingbackend.dto.Category;
+import net.kzn.shoppingbackend.dto.ContactUs;
 import net.kzn.shoppingbackend.dto.Product;
 
 @Controller
@@ -34,6 +41,13 @@ public class PageController {
 	
 	@Autowired
 	private ProductDAO productDAO;
+	
+	@Autowired
+	private ContactDAO contactDAO;
+	
+	@Autowired
+    private JavaMailSender mailSender;
+
 	
 	@RequestMapping(value = {"/", "/home", "/index"})
 	public ModelAndView index(@RequestParam(name="logout",required=false)String logout) {		
@@ -64,13 +78,66 @@ public class PageController {
 	}	
 	
 	@RequestMapping(value = "/contact")
-	public ModelAndView contact() {		
+	public ModelAndView contact(@RequestParam(name="success",required=false)String success) {		
 		ModelAndView mv = new ModelAndView("page");		
 		mv.addObject("title","Contact Us");
 		mv.addObject("userClickContact",true);
+		
+		ContactUs contact = new ContactUs();
+		mv.addObject("contact",contact);
+		if(success != null) {
+			if(success.equals("contact")){
+				mv.addObject("message", "Contact Form submitted successfully!");
+			}	
+		}
+		
+		
+		
+		
 		return mv;				
 	}	
 	
+	 
+	     
+	    @RequestMapping(value = "/contact", method=RequestMethod.POST)
+	    public String doSendEmail(@Valid @ModelAttribute("contact") ContactUs contact, 
+				BindingResult results, Model model, HttpServletRequest request) {
+	         
+	        // prints debug info
+	        
+	        String body = "Name :"+contact.getName()
+	        		+ "Message :"+contact.getMessage();
+	        // creates a simple e-mail object
+	        
+	       /* if(results.hasErrors()) {
+				model.addAttribute("message", "Failed to contact us!");
+				model.addAttribute("userClickContact",true);
+				return "page";
+			}	*/		
+
+			
+			if(contact.getId() == 0 ) {
+				contactDAO.addContact(contact);
+			}
+			
+			
+	      SimpleMailMessage email = new SimpleMailMessage();
+	        email.setTo(contact.getEmail());
+	        email.setFrom("gouthamliferay@gmail.com");
+	        email.setSubject(contact.getSubject());
+	        email.setText(contact.getMessage());
+	        
+	         
+	        // sends the e-mail
+	        try{
+	        mailSender.send(email);
+	        } catch(Exception ex){
+	        	ex.printStackTrace();
+	        }
+	        
+	        
+	        return "redirect:/contact?success=contact";
+	    }
 	
 	/*
 	 * Methods to load all the products and based on category
@@ -185,6 +252,8 @@ public class PageController {
 		return mv;
 	}	
 		
+	
+	
 	
 	
 }

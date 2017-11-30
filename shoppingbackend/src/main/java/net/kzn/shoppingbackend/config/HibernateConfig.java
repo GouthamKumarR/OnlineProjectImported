@@ -20,23 +20,27 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class HibernateConfig {
 
 	// Change the below based on the DBMS you choose
-	private final static String DATABASE_URL = "jdbc:h2:tcp://localhost/~/onlineshopping";
-	private final static String DATABASE_DRIVER = "org.h2.Driver";
-	private final static String DATABASE_DIALECT = "org.hibernate.dialect.H2Dialect";
-	private final static String DATABASE_USERNAME = "sa";
-	private final static String DATABASE_PASSWORD = "";
+	//private final static String DATABASE_URL="jdbc:mysql://localhost/onlineshopping";
+	private final static String DATABASE_URL="jdbc:mysql://aahd2pv8crkz4b.ck8f4dvagf4o.ap-south-1.rds.amazonaws.com:3306/onlineshopping";
+	private final static String DATABASE_DRIVER="com.mysql.jdbc.Driver";
+	private final static String DATABASE_DIALECT="org.hibernate.dialect.MySQLDialect";
+	private final static String DATABASE_USERNAME="root";
+	private final static String DATABASE_PASSWORD="912Krishna09";
+	
 	
 	// dataSource bean will be available
 	@Bean("dataSource")
 	public DataSource getDataSource() {
 		
 		BasicDataSource dataSource = new BasicDataSource();
-		
+		//String DB_URl = System.getProperty("JDBC_Connection_String");
+		//System.out.println("DB_URl"+DB_URl);
 		// Providing the database connection information
 		dataSource.setDriverClassName(DATABASE_DRIVER);
 		dataSource.setUrl(DATABASE_URL);
 		dataSource.setUsername(DATABASE_USERNAME);
 		dataSource.setPassword(DATABASE_PASSWORD);
+		//dataSource.setUrl(DB_URl);
 				
 		
 		return dataSource;
@@ -69,7 +73,7 @@ public class HibernateConfig {
 		properties.put("hibernate.show_sql", "true");
 		properties.put("hibernate.format_sql", "true");
 		
-		//properties.put("hibernate.hbm2ddl.auto", "create");
+		properties.put("hibernate.hbm2ddl.auto", "update");
 		
 		
 		return properties;

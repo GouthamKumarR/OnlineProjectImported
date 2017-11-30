@@ -7,8 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Pattern;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 public class Address implements Serializable {
@@ -32,6 +35,9 @@ public class Address implements Serializable {
 	private String state;
 	@NotBlank(message = "Please enter country!")	
 	private String country;
+	@Length(max=6,min=3,message="Postal code is not valid. Should be of length 3-6.")
+    @NotEmpty(message="Postal code field is mendatory.") 
+	@Pattern(regexp = "[0-9]+")
 	@Column(name ="postal_code")
 	@NotBlank(message = "Please enter Postal Code!")	
 	private String postalCode;

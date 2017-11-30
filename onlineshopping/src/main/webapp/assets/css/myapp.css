@@ -239,3 +239,10 @@ input:checked + .slider:before {
 		background:url(../images/pre-loader.gif) 50% no-repeat #fff
 }
 
+#dropdownMenu1{
+	color: #ff0000;
+}
+
+.table-responsive{
+	overflow-x: inherit;
+}
