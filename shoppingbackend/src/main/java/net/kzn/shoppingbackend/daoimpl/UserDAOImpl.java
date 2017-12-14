@@ -13,7 +13,7 @@ import net.kzn.shoppingbackend.dto.User;
 
 
 @Repository("userDAO")
-@Transactional
+@Transactional(rollbackFor=Exception.class)
 public class UserDAOImpl implements UserDAO {
 
 	@Autowired
