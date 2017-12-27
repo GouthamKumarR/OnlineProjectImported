@@ -13,7 +13,7 @@
 		<javaee.version>7.0</javaee.version>
 		<spring.version>4.3.6.RELEASE</spring.version>
 		<spring.security.version>4.2.2.RELEASE</spring.security.version>
-		
+
 	</properties>
 
 	<dependencies>
@@ -69,19 +69,19 @@
 		</dependency>
 
 		<!-- Spring Webflow -->
-	    <dependency>
-	        <groupId>org.springframework.webflow</groupId>
-	        <artifactId>spring-webflow</artifactId>
-	        <version>2.4.4.RELEASE</version>
-	    </dependency>
-	    
-	    <!-- Spring Security -->
+		<dependency>
+			<groupId>org.springframework.webflow</groupId>
+			<artifactId>spring-webflow</artifactId>
+			<version>2.4.4.RELEASE</version>
+		</dependency>
+
+		<!-- Spring Security -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
 			<version>${spring.security.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
@@ -93,24 +93,31 @@
 			<artifactId>spring-security-taglibs</artifactId>
 			<version>${spring.security.version}</version>
 		</dependency>
-		
+
 		<!-- Mail -->
-		
+
 		<dependency>
-		    <groupId>javax.mail</groupId>
-		    <artifactId>mail</artifactId>
-		    <version>1.4.7</version>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
 		</dependency>
-		 
-		
-		 <dependency>
-	          <groupId>org.springframework</groupId>
-	          <artifactId>spring-context-support</artifactId>
-	          <version>${spring.version}</version>
-	       </dependency>
-		
-	    
-	    
+
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.twilio.sdk</groupId>
+			<artifactId>twilio-java-sdk</artifactId>
+			<version>3.4.5</version>
+		</dependency>
+
+
+
 	</dependencies>
 	<build>
 		<!-- Updated for the latest version of JAVA -->
