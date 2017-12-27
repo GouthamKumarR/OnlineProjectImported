@@ -12,16 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.constraints.Range;
-import org.springframework.format.annotation.NumberFormat;
-import org.springframework.format.annotation.NumberFormat.Style;
 
 @Entity
 @Table(name = "user_detail")
@@ -31,42 +24,61 @@ public class User implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	/*
+	 * private fields for user
+	 * */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@Size(min = 5, max = 23)
-	@NotBlank(message = "Please enter first name!")
+	
 	@Column(name = "first_name")
+	@NotBlank(message = "Please enter first name!")
 	private String firstName;
-	@Size(min = 5, max = 23)
-	@NotBlank(message = "Please enter last name!")
+	
 	@Column(name = "last_name")
+	@NotBlank(message = "Please enter last name!")
 	private String lastName;
-	@Email
-	@Length(max=50,min=5,message="Email length should be between 5-50.")
-	@NotBlank(message = "Please enter email address!")	
+	
+	@Column(name = "email")
+	@NotBlank(message = "Please enter email address!")
 	private String email;
-	@Length(max=10,min=10,message="Phone number is not valid. Should be of length 10.")
-    @NotEmpty(message="Phone field is mendatory.") 
-	@Pattern(regexp = "[0-9]+")
+	
 	@Column(name = "contact_number")
+	@NotBlank(message = "Please enter contact number!")
 	private String contactNumber;
+	
+	@Column(name = "role")
 	private String role;
-	@Size(min = 5, max = 23)
+	
+	@Column(name = "password")
 	@NotBlank(message = "Please enter password!")
 	private String password;
+	
 	private boolean enabled = true;
+	
+	
+	// confirm password transient field
 	@Transient
 	private String confirmPassword;
-
+		
 	public String getConfirmPassword() {
 		return confirmPassword;
 	}
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
-	
+
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Cart cart;
+	public Cart getCart() {
+		return cart;
+	}
+	public void setCart(Cart cart) {
+		this.cart = cart;
+	}
+	/*
+	 * setter and getters for the fields
+	 * */
 	public int getId() {
 		return id;
 	}
@@ -116,21 +128,14 @@ public class User implements Serializable{
 		this.enabled = enabled;
 	}
 	
+	/*
+	 * toString for logging and debugging activity
+	 * */
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
 				+ ", contactNumber=" + contactNumber + ", role=" + role + ", password=" + password + ", enabled="
 				+ enabled + "]";
-	}
-	
-	
-	@OneToOne(mappedBy="user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Cart cart;
-	public Cart getCart() {
-		return cart;
-	}
-	public void setCart(Cart cart) {
-		this.cart = cart;
 	}
 	
 }

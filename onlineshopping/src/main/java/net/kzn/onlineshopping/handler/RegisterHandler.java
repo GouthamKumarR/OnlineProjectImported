@@ -22,9 +22,11 @@ public class RegisterHandler {
 	
  @Autowired
  private UserDAO userDAO;
+ 
  public RegisterModel init() { 
   return new RegisterModel();
  } 
+ 
  public void addUser(RegisterModel registerModel, User user) {
   registerModel.setUser(user);
  } 

@@ -7,50 +7,70 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 public class Address implements Serializable {
-
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+	/*
+	 * private fields
+	 * */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@NotBlank(message = "Please enter address line one!")
+
+	@Column(name = "user_id")
+	private int userId;
+	
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
 	@Column(name = "address_line_one")
+	@NotBlank(message = "Please enter address line one!")
 	private String addressLineOne;
-	@NotBlank(message = "Please enter address line two!")	
-	@Column(name = "address_line_two")
+	
+	@Column(name = "address_line_two")	
+	@NotBlank(message = "Please enter address line two!")
 	private String addressLineTwo;
-	@NotBlank(message = "Please enter City!")	
+
+	@NotBlank(message = "Please enter city name!")
 	private String city;
-	@NotBlank(message = "Please enter State!")	
+
+	@NotBlank(message = "Please enter state name!")
 	private String state;
-	@NotBlank(message = "Please enter country!")	
+	
+	@NotBlank(message = "Please enter country!")
 	private String country;
-	@Length(max=6,min=3,message="Postal code is not valid. Should be of length 3-6.")
-    @NotEmpty(message="Postal code field is mendatory.") 
-	@Pattern(regexp = "[0-9]+")
-	@Column(name ="postal_code")
-	@NotBlank(message = "Please enter Postal Code!")	
+	
+	@Column(name = "postal_code")
+	@NotBlank(message = "Please enter postal code!")	
 	private String postalCode;
-	@Column(name="is_shipping")
+	
+	@Column(name = "is_shipping")
 	private boolean shipping;
-	@Column(name="is_billing")
+	
+	@Column(name = "is_billing")
 	private boolean billing;
+	
+	/*
+	 * setter and getter for the fields
+	 * */
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public String getAddressLineOne() {
 		return addressLineOne;
 	}
@@ -87,34 +107,27 @@ public class Address implements Serializable {
 	public void setPostalCode(String postalCode) {
 		this.postalCode = postalCode;
 	}
-	public boolean isBilling() {
-		return billing;
-	}
-	public void setBilling(boolean billing) {
-		this.billing = billing;
-	}
-	
-	@Override
-	public String toString() {
-		return "Address [id=" + id + ", addressLineOne=" + addressLineOne + ", addressLineTwo=" + addressLineTwo
-				+ ", city=" + city + ", state=" + state + ", country=" + country + ", postalCode=" + postalCode
-				+ ", billing=" + billing + "]";
-	}
-		
-	@Column(name = "user_id")
-	private int userId;
 	public boolean isShipping() {
 		return shipping;
 	}
 	public void setShipping(boolean shipping) {
 		this.shipping = shipping;
 	}
-	public int getUserId() {
-		return userId;
+	public boolean isBilling() {
+		return billing;
 	}
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setBilling(boolean billing) {
+		this.billing = billing;
 	}
-	
+
+	/*
+	 * toString for logging and debugging activity
+	 * */
+	@Override
+	public String toString() {
+		return "Address [id=" + id + ", addressLineOne=" + addressLineOne + ", addressLineTwo=" + addressLineTwo
+				+ ", city=" + city + ", state=" + state + ", country=" + country + ", postalCode=" + postalCode
+				+ ", shipping=" + shipping + ", billing=" + billing + "]";
+	}
 	
 }

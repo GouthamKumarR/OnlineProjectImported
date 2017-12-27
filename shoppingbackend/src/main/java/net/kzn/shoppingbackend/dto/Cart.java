@@ -20,8 +20,10 @@ public class Cart implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private int id;
+	
 	@Column(name = "grand_total")
 	private double grandTotal;
+	
 	@Column(name = "cart_lines")
 	private int cartLines;
 

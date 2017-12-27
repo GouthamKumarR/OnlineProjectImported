@@ -24,21 +24,23 @@ public class CartLine implements Serializable {
 	private int id;
 	@OneToOne
 	private Product product;
+	
 	@Column(name = "cart_id")
 	private int cartId;	
+	
 	@Column(name = "product_count")
 	private int productCount;
+	
 	private double total;
+	
 	@Column(name = "buying_price")
 	private double buyingPrice;
-	public double getBuyingPrice() {
-		return buyingPrice;
-	}
-	public void setBuyingPrice(double buyingPrice) {
-		this.buyingPrice = buyingPrice;
-	}
+	
 	@Column(name = "is_available")
 	private boolean available = true;
+	
+	
+	
 	
 	public int getId() {
 		return id;
@@ -76,6 +78,12 @@ public class CartLine implements Serializable {
 	}
 	public void setAvailable(boolean available) {
 		this.available = available;
+	}
+	public double getBuyingPrice() {
+		return buyingPrice;
+	}
+	public void setBuyingPrice(double buyingPrice) {
+		this.buyingPrice = buyingPrice;
 	}
 		
 	
